@@ -1,9 +1,9 @@
 import TopBanner from "../BannerSection/TopBnner/TopBanner";
-import BlockSection from "../AllBlog/TopBlogSection/TopBlogSection";
-import HealthyEatingSection from "../AllBlog/HealthyEatingBlog/HealthyEating";
+import Blogs from "../AllBlog/Blogs/Blogs";
 import Footer from "../Shared/Footer/Footer";
 import Header from "../Shared/Header/Header";
 import VideoSection from "../VideoSection/VideoSection";
+import FeatureSection from "../AllBlog/FeatureSection/FeatureSection"
 
 
 const Home = () => {
@@ -11,9 +11,9 @@ const Home = () => {
         <div>
             <Header/>
             <TopBanner/>
-            <BlockSection/>
+            <FeatureSection/>
             <VideoSection/>
-            <HealthyEatingSection/>
+            <Blogs/>
             <Footer/>
         </div>
     );

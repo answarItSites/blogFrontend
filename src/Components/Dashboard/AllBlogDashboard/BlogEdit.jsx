@@ -4,7 +4,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import JoditEditor from 'jodit-react';
 
-const HealthyEatingBlogEdit = () => {
+const BlogEdit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [sections, setSections] = useState([]);
@@ -185,4 +185,4 @@ const HealthyEatingBlogEdit = () => {
   );
 };
 
-export default HealthyEatingBlogEdit;
+export default BlogEdit;

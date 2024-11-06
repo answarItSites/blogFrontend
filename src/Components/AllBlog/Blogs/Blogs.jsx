@@ -47,7 +47,7 @@ const HealthyEatingSection = () => {
 
   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
     {articles.map((article, index) => (
-      <Link to={`healthy-eating/2`}
+      <Link to={`BlogDetails/2`}
         
         key={index}
         className="flex items-center space-x-4 transition-transform transform hover:scale-105 hover:bg-gray-100 p-4 rounded-lg"

@@ -116,14 +116,14 @@ const BlockSection = () => {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Left Section (Large Image with Title and Description) */}
         <div className="lg:col-span-2">
-          <Link to={`blog/1`}>
+          <Link to={`Feature/1`}>
           <img
             src={featuredData.image}
             alt="Featured large"
             className="w-full h-64 object-cover rounded-md"
           /></Link>
           <Link
-            to={`blog/1`}
+            to={`Feature/1`}
             className="text-xl font-bold mt-4 block transition-colors duration-300 hover:text-green-600"
           >
             {featuredData.title}
@@ -134,7 +134,7 @@ const BlockSection = () => {
         {/* Right Section (Horizontally Aligned Articles) */}
         <div className="lg:col-span-2 flex flex-col space-y-4">
           {articlesData.map((article, index) => (
-            <Link to={`blog/2`} key={index} className="flex items-center space-x-4">
+            <Link to={`Feature/2`} key={index} className="flex items-center space-x-4">
               <img
                 src={article.image}
                 alt="Article"

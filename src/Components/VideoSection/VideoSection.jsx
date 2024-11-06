@@ -53,7 +53,7 @@ const VideoSection = () => {
                   src={video.thumbnail} // Ensure autoplay is disabled
                   title={video.title}
                   frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allow="accelerometer;  clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerPolicy="strict-origin-when-cross-origin"
                   allowFullScreen
                 ></iframe>                            

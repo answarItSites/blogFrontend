@@ -14,7 +14,7 @@ const Header = () => {
           {/* Logo Section */}
           <div className="flex-shrink-0">
             <a href="/" className="text-[#34d399] text-xl font-semibold">
-              DOTMAILIT
+              DOTMAILBLOG
             </a>
           </div>
 

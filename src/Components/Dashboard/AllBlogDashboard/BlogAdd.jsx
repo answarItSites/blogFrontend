@@ -3,12 +3,14 @@ import JoditEditor from 'jodit-react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
-const HealthyEatingBLogAdd = () => {
+const BLogAdd = () => {
   const [sections, setSections] = useState([{
     id: 1,
     title: '',
     image: null,
-    description: ''
+    description: '',
+    department: '',
+    subDepartment: ''
   }]);
 
   console.log(sections, 'sections');
@@ -81,7 +83,9 @@ const HealthyEatingBLogAdd = () => {
       id: sections.length + 1,
       title: '',
       image: null,
-      description: ''
+      description: '',
+      department: '',
+      subDepartment: ''
     }]);
   };
 
@@ -92,11 +96,24 @@ const HealthyEatingBLogAdd = () => {
     }
   };
 
+  const handleDepartmentChange = (e, index) => {
+    const newSections = [...sections];
+    newSections[index].department = e.target.value;
+    setSections(newSections);
+  };
+
+  const handleSubDepartmentChange = (e, index) => {
+    const newSections = [...sections];
+    newSections[index].subDepartment = e.target.value;
+    setSections(newSections);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const isValid = sections.every(section => 
-      section.title && section.image && section.description
+      section.title && section.image && section.description && section.department &&
+      (section.department !== 'Meal Kits' || section.subDepartment)
     );
 
     if (!isValid) {
@@ -114,6 +131,10 @@ const HealthyEatingBLogAdd = () => {
         formData.append(`title${index}`, section.title);
         formData.append(`image${index}`, section.image);
         formData.append(`description${index}`, section.description);
+        formData.append(`department${index}`, section.department);
+        if (section.department === 'Meal Kits') {
+          formData.append(`subDepartment${index}`, section.subDepartment);
+        }
       });
 
       const response = await axios.post('http://localhost:5000/api/v1/top-blogs', formData, {
@@ -128,7 +149,9 @@ const HealthyEatingBLogAdd = () => {
           id: 1,
           title: '',
           image: null,
-          description: ''
+          description: '',
+          department: '',
+          subDepartment: ''
         }]);
       } else {
         toast.error('Failed to add blog posts');
@@ -141,7 +164,7 @@ const HealthyEatingBLogAdd = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Add HealthyEating Blog</h1>
+      <h1 className="text-3xl font-bold mb-6">Add Blogs</h1>
       
       <form onSubmit={handleSubmit} className="space-y-8">
         {sections.map((section, index) => (
@@ -170,6 +193,47 @@ const HealthyEatingBLogAdd = () => {
                 placeholder="Enter blog title"
               />
             </div>
+
+            {/* Department Input */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-2">Department</label>
+              <select
+                value={section.department}
+                onChange={(e) => handleDepartmentChange(e, index)}
+                className="w-full p-2 border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Select Department</option>
+                <option value="Meal Kits">Meal Kits</option>
+                <option value="Special Diets">Special Diets</option>
+                <option value="Healthy Eating">Healthy Eating</option>
+                <option value="Food Freedom">Food Freedom</option>
+                <option value="Conditions">Conditions</option>
+                <option value="Feel Good Food">Feel Good Food</option>
+                <option value="Products">Products</option>
+                <option value="Vitamins & Supplements">Vitamins & Supplements</option>
+                <option value="Sustain">Sustain</option>
+              </select>
+            </div>
+
+            {/* Sub-Department Input (conditionally rendered) */}
+            {section.department === 'Meal Kits' && (
+              <div className="mb-4">
+                <label className="block text-sm font-medium mb-2">Sub-Department</label>
+                <select
+                  value={section.subDepartment}
+                  onChange={(e) => handleSubDepartmentChange(e, index)}
+                  className="w-full p-2 border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Select Sub-Department</option>
+                  <option value="Overview">Overview</option>
+                  <option value="Diets">Diets</option>
+                  <option value="Meal Kits">Meal Kits</option>
+                  <option value="Prepared Meals">Prepared Meals</option>
+                  <option value="Comparisons">Comparisons</option>
+                  <option value="Grocery Delivery">Grocery Delivery</option>
+                </select>
+              </div>
+            )}
 
             {/* Image Input */}
             <div className="mb-4">
@@ -223,4 +287,4 @@ const HealthyEatingBLogAdd = () => {
   );
 };
 
-export default HealthyEatingBLogAdd;
+export default BLogAdd;
