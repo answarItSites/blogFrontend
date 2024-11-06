@@ -18,6 +18,44 @@ const Header = () => {
             </a>
           </div>
 
+          {/* Nav Links Section - Hidden on small screens */}
+          <div className="hidden sm:flex sm:items-center sm:space-x-4">
+            <a href="/" className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap">
+              Meal Kits
+            </a>
+            <a href="/" className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap">
+              Special Diets
+            </a>
+            <a href="/" className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap">
+              Healthy Eating
+            </a>
+            <a href="/" className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap">
+              Food Freedom
+            </a>
+            {/* <a href="/" className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap">
+              Conditions
+            </a> */}
+            <a href="/" className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap">
+              Feel Good Food
+            </a>
+            <a href="/" className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap">
+              Products
+            </a>
+            <a href="/" className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap">
+              Vitamins & Supplements
+            </a>
+            <a href="/" className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap">
+              Sustain
+            </a>
+          </div>
+
+          {/* Login Button */}
+          <div className="hidden sm:flex sm:items-center">
+            <a href="/login" className="bg-[#38bdf8] text-white hover:bg-[#34d399] px-4 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out">
+              Login
+            </a>
+          </div>
+
           {/* Mobile menu button */}
           <div className="absolute inset-y-0 right-0 flex items-center sm:hidden">
             <button
@@ -65,39 +103,6 @@ const Header = () => {
               )}
             </button>
           </div>
-
-          {/* Nav Links Section - Hidden on small screens */}
-          <div className="hidden sm:block sm:ml-6">
-            <div className="flex space-x-4">
-              <a href="/" className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap">
-                Meal Kits
-              </a>
-              <a href="/" className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap">
-                Special Diets
-              </a>
-              <a href="/" className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap">
-                Healthy Eating
-              </a>
-              <a href="/" className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap">
-                Food Freedom
-              </a>
-              <a href="/" className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap">
-                Conditions
-              </a>
-              <a href="/" className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap">
-                Feel Good Food
-              </a>
-              <a href="/" className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap">
-                Products
-              </a>
-              <a href="/" className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap">
-                Vitamins & Supplements
-              </a>
-              <a href="/" className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap">
-                Sustain
-              </a>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -116,9 +121,9 @@ const Header = () => {
           <a href="/" className="text-gray-300 hover:text-[#38bdf8] block px-3 py-2 rounded-md text-base font-medium">
             Food Freedom
           </a>
-          <a href="/" className="text-gray-300 hover:text-[#38bdf8] block px-3 py-2 rounded-md text-base font-medium">
+          {/* <a href="/" className="text-gray-300 hover:text-[#38bdf8] block px-3 py-2 rounded-md text-base font-medium">
             Conditions
-          </a>
+          </a> */}
           <a href="/" className="text-gray-300 hover:text-[#38bdf8] block px-3 py-2 rounded-md text-base font-medium">
             Feel Good Food
           </a>
