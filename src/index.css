@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Reset some basic styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif; /* Change this to your desired font */
+  line-height: 1.6;
+  background-color: #f4f4f4; /* Light background color */
+  color: #333; /* Dark text color */
+}
+
+/* Container for content */
+.container {
+  max-width: 1200px; /* Center the content */
+  margin: 0 auto;
+  padding: 20px;
+}
+
+
