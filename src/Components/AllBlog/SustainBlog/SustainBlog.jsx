@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const HealthyEatingSection = () => {
+const SustainBlog = () => {
   // Example articles data
   const articles = [
     {
@@ -43,7 +43,7 @@ const HealthyEatingSection = () => {
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-8">
-      <h2 className="text-2xl font-bold mb-6">HEALTHY EATING IRL</h2>
+      <h2 className="text-2xl font-bold mb-6">Sustain</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
         {articles.map((article, index) => (
@@ -70,4 +70,6 @@ const HealthyEatingSection = () => {
   );
 };
 
-export default HealthyEatingSection;
+export default SustainBlog;
+
+
