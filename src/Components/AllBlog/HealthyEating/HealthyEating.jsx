@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
 
-const HealthyEatingSection = () => {
-  // Example articles data
+const HealthyEating = () => {
   const articles = [
     {
       title: "15 Staple Foods to Make Healthy Eating Easy All Week Long",
       description: "Here's how to always have something to make for dinner.",
-      thumbnail: "https://res.cloudinary.com/dtixzwuqt/image/upload/v1729706106/2_v6qecg.jpg", // Replace with actual image path
+      thumbnail: "https://res.cloudinary.com/dtixzwuqt/image/upload/v1729706106/2_v6qecg.jpg",
       link: "#"
     },
     {
@@ -43,8 +42,7 @@ const HealthyEatingSection = () => {
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-8">
-      <h2 className="text-2xl font-bold mb-6">HEALTHY EATING IRL</h2>
-
+      <h2 className="text-2xl font-bold mb-6 pb-2 border-b-2 border-gray-200">HEALTHY EATING IRL</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
         {articles.map((article, index) => (
           <Link
@@ -70,4 +68,8 @@ const HealthyEatingSection = () => {
   );
 };
 
-export default HealthyEatingSection;
+export default HealthyEating;
+
+
+
+

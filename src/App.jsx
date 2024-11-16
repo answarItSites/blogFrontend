@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './Components/Home/Home';
-import DetailsBlogSection from './Components/AllBlog/TopBlogSection/TopDetailsBlogSection';
-import DetialsHealtyEating from './Components/AllBlog/HealthyEatingBlog/DetialsHealtyEating';
-import TopBlogAdd from './Components/Dashboard/TopBlog/TopBlogAdd';
-import HealthyEatingBlogAdd from './Components/Dashboard/HealthyEatingBlog/HealthyEatingBLogAdd';
+import FeatureSectionDetails from './Components/AllBlog/FeatureSection/FeatureSectionDetails';
+// import DetialsHealtyEating from './Components/AllBlog/Blogs/BlogDetails';
+import FeatureEdit from './Components/Dashboard/FeatureDashboard/FeatureEdit';
+import BlogAdd from './Components/Dashboard/AllBlogDashboard/BlogAdd';
 
 
 
@@ -13,11 +13,12 @@ const App = () => {
       <div>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/blog/:id" element={<DetailsBlogSection />} />
-          <Route path="/healthy-eating/:id" element={<DetialsHealtyEating />} />
+          <Route path="/Feature/:id" element={<FeatureSectionDetails />} />
+          {/* Comment out this route until BlogDetails component is created */}
+          {/* <Route path="/BlogDetails/:id" element={<DetialsHealtyEating />} /> */}
           {/* dashboard */}
-          <Route path="/top-blog-add" element={<TopBlogAdd />} />
-          <Route path="/healthy-eating-blog-add" element={<HealthyEatingBlogAdd />} />
+          <Route path="/FeatureEdit" element={<FeatureEdit />} />
+          <Route path="/blogAdd" element={<BlogAdd />} />
         </Routes>
       </div>
     </Router>

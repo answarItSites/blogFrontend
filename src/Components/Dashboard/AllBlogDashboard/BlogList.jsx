@@ -7,7 +7,7 @@ import  {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const HealthyEatingBlogList = () => {
+const BlogList = () => {
   const navigate = useNavigate();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -104,4 +104,4 @@ const HealthyEatingBlogList = () => {
   );
 };
 
-export default HealthyEatingBlogList;
+export default BlogList;

@@ -43,7 +43,7 @@ const ConditionsBlog = () => {
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-8">
-      <h2 className="text-2xl font-bold mb-6">Conditions</h2>
+      <h2 className="text-2xl font-bold mb-6 pb-2 border-b-2 border-gray-200">Conditions</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
         {articles.map((article, index) => (
