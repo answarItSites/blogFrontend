@@ -208,6 +208,33 @@ const Header = () => {
             <a href="/" className="text-gray-300 hover:text-[#38bdf8] block px-3 py-2 rounded-md text-base font-medium" onClick={handleMenuItemClick}>
               Special Diets
             </a>
+
+            <a href="/" className="text-gray-300 hover:text-[#38bdf8] block px-3 py-2 rounded-md text-base font-medium" onClick={handleMenuItemClick}>
+            Healthy Eating
+            </a>
+
+            <a href="/" className="text-gray-300 hover:text-[#38bdf8] block px-3 py-2 rounded-md text-base font-medium" onClick={handleMenuItemClick}>
+            Food Freedom
+            </a>
+
+            <a href="/" className="text-gray-300 hover:text-[#38bdf8] block px-3 py-2 rounded-md text-base font-medium" onClick={handleMenuItemClick}>
+            Conditions
+            </a>
+
+            <a href="/" className="text-gray-300 hover:text-[#38bdf8] block px-3 py-2 rounded-md text-base font-medium" onClick={handleMenuItemClick}>
+            Feel Good Food
+            </a>
+            <a href="/" className="text-gray-300 hover:text-[#38bdf8] block px-3 py-2 rounded-md text-base font-medium" onClick={handleMenuItemClick}>
+            Products
+            </a>
+            <a href="/" className="text-gray-300 hover:text-[#38bdf8] block px-3 py-2 rounded-md text-base font-medium" onClick={handleMenuItemClick}>
+            Vitamins & Supplements
+            </a>
+
+            <a href="/" className="text-gray-300 hover:text-[#38bdf8] block px-3 py-2 rounded-md text-base font-medium" onClick={handleMenuItemClick}>
+            Sustain
+            </a>
+
             {/* ... other mobile menu items ... */}
 
             {/* Mobile Login Dropdown */}
