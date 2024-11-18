@@ -1,280 +1,168 @@
-import { useState } from 'react';
-import JoditEditor from 'jodit-react';
-import { toast } from 'react-toastify';
-import axios from 'axios';
+import { useState } from "react";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const BLogAdd = () => {
-  const [sections, setSections] = useState([{
-    id: 1,
-    title: '',
-    image: null,
-    description: '',
-    department: '',
-    subDepartment: ''
-  }]);
+  const [title, setTitle] = useState(""); // State for title
+  const [description, setDescription] = useState(""); // State for description
+  const [department, setDepartment] = useState(""); // State for department
+  const [subDepartment, setSubDepartment] = useState(""); // State for sub-department
+  const [imageUrl, setImageUrl] = useState(""); // State for image URL
 
-  console.log(sections, 'sections');
-  
-  // Config for JoditEditor
-  const config = {
-    readonly: false,
-    height: 400,
-    buttons: [
-      'source', '|',
-      'bold', 'italic', 'underline', '|', 
-      'ul', 'ol', '|',
-      'font', 'fontsize', 'paragraph', '|',
-      'link', 'image_url', 'video_url', 'table', '|',
-      'left', 'center', 'right', 'justify', '|',
-      'undo', 'redo', '|',
-      'hr', 'eraser', 'fullsize'
-    ],
-    iframe: true,
-    spellcheck: false,
-    useSearch: false,
-    beautifyHTML: false,
-  };
-
-  const handleImageChange = async (e, index) => {
-    const file = e.target.files[0];
-    if (file && file.type.startsWith('image/')) {
-      try {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('upload_preset', 'blog_preset');
-        
-        const response = await axios.post('https://api.cloudinary.com/v1_1/dqexj7isi/image/upload', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        });
-
-        const imageUrl = response.data.secure_url;
-        console.log(imageUrl,'imageUrl');
-        
-        const newSections = [...sections];
-        newSections[index].image = imageUrl;
-        setSections(newSections);
-        
-        toast.success('Image uploaded successfully');
-      } catch (error) {
-        toast.error('Error uploading image');
-        console.error('Upload error:', error);
-      }
+  const handleDepartmentChange = (e) => {
+    const selectedDepartment = e.target.value;
+    setDepartment(selectedDepartment);
+    // Update sub-department options based on selected department
+    if (selectedDepartment === "Meal Kits") {
+      setSubDepartment("Overview"); // Example of setting a default sub-department
     } else {
-      toast.error('Please select a valid image file');
+      setSubDepartment(""); // Reset if not Meal Kits
     }
-  };
-
-  const handleTitleChange = (e, index) => {
-    const newSections = [...sections];
-    newSections[index].title = e.target.value;
-    setSections(newSections);
-  };
-
-  const handleDescriptionChange = (newContent, index) => {
-    const newSections = [...sections];
-    newSections[index].description = newContent;
-    setSections(newSections);
-  };
-
-  const addNewSection = () => {
-    setSections([...sections, {
-      id: sections.length + 1,
-      title: '',
-      image: null,
-      description: '',
-      department: '',
-      subDepartment: ''
-    }]);
-  };
-
-  const removeSection = (index) => {
-    if (sections.length > 1) {
-      const newSections = sections.filter((_, i) => i !== index);
-      setSections(newSections);
-    }
-  };
-
-  const handleDepartmentChange = (e, index) => {
-    const newSections = [...sections];
-    newSections[index].department = e.target.value;
-    setSections(newSections);
-  };
-
-  const handleSubDepartmentChange = (e, index) => {
-    const newSections = [...sections];
-    newSections[index].subDepartment = e.target.value;
-    setSections(newSections);
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission
+    // Create the article object in the desired structure
+    const article = {
+      title,
+      description,
+      thumbnail: imageUrl, // Use the uploaded image URL
+      link: "#", // You can modify this if you have a specific link
+    };
+    console.log(article);
 
-    const isValid = sections.every(section => 
-      section.title && section.image && section.description && section.department &&
-      (section.department !== 'Meal Kits' || section.subDepartment)
-    );
-
-    if (!isValid) {
-      toast.error('Please fill in all fields in every section');
-      return;
+    // Send data to backend
+    try {
+      await axios.post("YOUR_BACKEND_URL", article);
+      toast.success("Blog added successfully");
+    } catch (error) {
+      toast.error("Error adding blog");
+      console.error("Submission error:", error);
     }
+  };
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
 
     try {
       const formData = new FormData();
-      
-      formData.append('totalSections', sections.length);
-      
-      sections.forEach((section, index) => {
-        console.log(`Section ${index}:`, section);
-        formData.append(`title${index}`, section.title);
-        formData.append(`image${index}`, section.image);
-        formData.append(`description${index}`, section.description);
-        formData.append(`department${index}`, section.department);
-        if (section.department === 'Meal Kits') {
-          formData.append(`subDepartment${index}`, section.subDepartment);
-        }
-      });
+      formData.append("file", file);
+      formData.append("upload_preset", "blog_preset");
 
-      const response = await axios.post('http://localhost:5000/api/v1/top-blogs', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/dqexj7isi/image/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-      });
+      );
 
-      if (response.data.success) {
-        toast.success('Blog posts added successfully');
-        setSections([{
-          id: 1,
-          title: '',
-          image: null,
-          description: '',
-          department: '',
-          subDepartment: ''
-        }]);
-      } else {
-        toast.error('Failed to add blog posts');
-      }
+      const uploadedImageUrl = response.data.secure_url;
+      console.log(uploadedImageUrl, "imageUrl");
+
+      setImageUrl(uploadedImageUrl); // Set the image URL state
+
+      toast.success("Image uploaded successfully");
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Error adding blog posts');
-      console.error('Error:', error);
+      toast.error("Error uploading image");
+      console.error("Upload error:", error);
     }
   };
 
   return (
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">Add Blogs</h1>
-      
-      <form onSubmit={handleSubmit} className="space-y-8">
-        {sections.map((section, index) => (
-          <div key={section.id} className="p-6 border rounded-lg bg-gray-50">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">Section {index + 1}</h2>
-              {sections.length > 1 && (
-                <button 
-                  type="button"
-                  onClick={() => removeSection(index)}
-                  className="text-red-500 hover:text-red-700"
-                >
-                  Remove Section
-                </button>
-              )}
-            </div>
 
-            {/* Title Input */}
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-2">Title</label>
-              <input
-                type="text"
-                value={section.title}
-                onChange={(e) => handleTitleChange(e, index)}
-                className="w-full p-2 border rounded-md"
-                placeholder="Enter blog title"
-              />
-            </div>
+      <form className="space-y-8" onSubmit={handleSubmit}>
+        {" "}
+        {/* Add onSubmit handler */}
+        <div className="p-6 border rounded-lg bg-gray-50">
+          {/* Title Input */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-2">Title</label>
+            <input
+              type="text"
+              className="w-full p-2 border rounded-md"
+              placeholder="Enter blog title"
+              value={title} // Bind title state
+              onChange={(e) => setTitle(e.target.value)} // Update title state
+            />
+          </div>
 
-            {/* Department Input */}
+          {/* Department Input */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-2">Department</label>
+            <select
+              className="w-full p-2 border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={department} // Bind department state
+              onChange={handleDepartmentChange} // Update department state
+            >
+              <option value="">Select Department</option>
+              <option value="Meal Kits">Meal Kits</option>
+              <option value="Special Diets">Special Diets</option>
+              <option value="Healthy Eating">Healthy Eating</option>
+              <option value="Food Freedom">Food Freedom</option>
+              <option value="Conditions">Conditions</option>
+              <option value="Feel Good Food">Feel Good Food</option>
+              <option value="Products">Products</option>
+              <option value="Vitamins & Supplements">
+                Vitamins & Supplements
+              </option>
+              <option value="Sustain">Sustain</option>
+            </select>
+          </div>
+
+          {/* Sub-Department Input (conditionally rendered) */}
+          {department === "Meal Kits" && (
             <div className="mb-4">
-              <label className="block text-sm font-medium mb-2">Department</label>
+              <label className="block text-sm font-medium mb-2">
+                Sub-Department
+              </label>
               <select
-                value={section.department}
-                onChange={(e) => handleDepartmentChange(e, index)}
                 className="w-full p-2 border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={subDepartment} // Bind sub-department state
+                onChange={(e) => setSubDepartment(e.target.value)} // Update sub-department state
               >
-                <option value="">Select Department</option>
-                <option value="Meal Kits">Meal Kits</option>
-                <option value="Special Diets">Special Diets</option>
-                <option value="Healthy Eating">Healthy Eating</option>
-                <option value="Food Freedom">Food Freedom</option>
-                <option value="Conditions">Conditions</option>
-                <option value="Feel Good Food">Feel Good Food</option>
-                <option value="Products">Products</option>
-                <option value="Vitamins & Supplements">Vitamins & Supplements</option>
-                <option value="Sustain">Sustain</option>
-              </select>
-            </div>
+                <option value="">Select Sub-Department</option>
 
-            {/* Sub-Department Input (conditionally rendered) */}
-            {section.department === 'Meal Kits' && (
-              <div className="mb-4">
-                <label className="block text-sm font-medium mb-2">Sub-Department</label>
-                <select
-                  value={section.subDepartment}
-                  onChange={(e) => handleSubDepartmentChange(e, index)}
-                  className="w-full p-2 border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="">Select Sub-Department</option>
+                <>
                   <option value="Overview">Overview</option>
                   <option value="Diets">Diets</option>
                   <option value="Meal Kits">Meal Kits</option>
                   <option value="Prepared Meals">Prepared Meals</option>
                   <option value="Comparisons">Comparisons</option>
                   <option value="Grocery Delivery">Grocery Delivery</option>
-                </select>
-              </div>
-            )}
-
-            {/* Image Input */}
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-2">Image</label>
-              <input
-                type="file"
-                onChange={(e) => handleImageChange(e, index)}
-                accept="image/*"
-                className="w-full p-2 border rounded-md"
-              />
-              {section.image && (
-                <img 
-                  src={section.image} 
-                  alt="Preview" 
-                  className="mt-2 max-w-xs rounded"
-                />
-              )}
+                </>
+              </select>
             </div>
+          )}
 
-            {/* Description with JoditEditor */}
-            <div>
-              <label className="block text-sm font-medium mb-2">Description</label>
-              <JoditEditor
-                key={section.id}
-                value={section.description}
-                config={config}
-                onBlur={(newContent) => handleDescriptionChange(newContent, index)} // Using onBlur
-              />
-            </div>
+          {/* Image Input */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-2">Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              className="w-full p-2 border rounded-md"
+              onChange={handleImageChange} // Handle image change
+            />
           </div>
-        ))}
 
-        {/* Add Section Button */}
-        <button
-          type="button"
-          onClick={addNewSection}
-          className="w-full bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 transition-colors mb-4"
-        >
-          Add New Section
-        </button>
-
+          {/* Description Input */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-2">
+              Description
+            </label>
+            <textarea
+              className="w-full p-2 border rounded-md"
+              placeholder="Enter blog description"
+              value={description} // Bind description state
+              onChange={(e) => setDescription(e.target.value)} // Update description state
+            />
+          </div>
+        </div>
         {/* Submit Button */}
         <button
           type="submit"
