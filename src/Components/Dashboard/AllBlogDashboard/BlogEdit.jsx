@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -7,100 +7,186 @@ import JoditEditor from 'jodit-react';
 const BlogEdit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [sections, setSections] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [department, setDepartment] = useState("");
+  const [subDepartment, setSubDepartment] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [loading, setLoading] = useState(true);
+  
+  const editor = useRef(null);
+  const editorContentRef = useRef("");
 
   const config = {
     readonly: false,
-    height: 400
+    placeholder: "Start typing...",
+    toolbarButtonSize: "small",
+    buttons: [
+      "bold",
+      "italic",
+      "underline",
+      "strikethrough",
+      "eraser",
+      "ul",
+      "ol",
+      "outdent",
+      "indent",
+      "font",
+      "fontsize",
+      "brush",
+      "paragraph",
+      "align",
+      "undo",
+      "redo",
+      "cut",
+      "copy",
+      "paste",
+      "hr",
+      "link",
+      "unlink",
+    ],
   };
 
   useEffect(() => {
-    fetchBlogById();
+    fetchBlog();
   }, [id]);
 
-  const fetchBlogById = async () => {
+  const fetchBlog = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:5000/api/v1/top-blogs/${id}`);
+      const response = await axios.get(`http://localhost:5002/api/postArticle/${id}`);
+      
       if (response.data.success) {
-        setSections(response.data.data.sections);
+        const blog = response.data.data;
+        setTitle(blog.title);
+        setDescription(blog.description);
+        setDepartment(blog.department);
+        setSubDepartment(blog.subDepartment || "");
+        setImageUrl(blog.thumbnail);
+        editorContentRef.current = blog.description;
+      } else {
+        toast.error("Failed to fetch blog data");
       }
     } catch (error) {
-      toast.error('Error fetching blog');
-      console.error('Error:', error);
+      console.error('Error fetching blog:', error);
+      toast.error(error.response?.data?.message || "Error fetching blog");
+      navigate('/blogList'); // Redirect to blog list on error
     } finally {
       setLoading(false);
     }
   };
 
-  const handleTitleChange = (e, index) => {
-    const updatedSections = [...sections];
-    updatedSections[index].title = e.target.value;
-    setSections(updatedSections);
+  const handleEditorChange = useCallback((newContent) => {
+    editorContentRef.current = newContent;
+  }, []);
+
+  const handleEditorBlur = () => {
+    setDescription(editorContentRef.current);
   };
 
-  const handleImageChange = async (e, index) => {
-    const file = e.target.files[0];
-    if (file) {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', 'your_cloudinary_upload_preset');
-
-      try {
-        const response = await axios.post(
-          'https://api.cloudinary.com/v1_1/your_cloud_name/image/upload',
-          formData
-        );
-        const updatedSections = [...sections];
-        updatedSections[index].image = response.data.secure_url;
-        setSections(updatedSections);
-      } catch (error) {
-        toast.error('Error uploading image');
-        console.error('Error:', error);
-      }
+  const handleDepartmentChange = (e) => {
+    const selectedDepartment = e.target.value;
+    setDepartment(selectedDepartment);
+    if (selectedDepartment === "Meal Kits") {
+      setSubDepartment("Overview");
+    } else {
+      setSubDepartment("");
     }
   };
 
-  const handleDescriptionChange = (newContent, index) => {
-    const updatedSections = [...sections];
-    updatedSections[index].description = newContent;
-    setSections(updatedSections);
-  };
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
 
-  const addNewSection = () => {
-    setSections([...sections, {
-      id: Date.now(),
-      title: '',
-      image: '',
-      description: ''
-    }]);
-  };
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "blog_preset");
 
-  const removeSection = (index) => {
-    const updatedSections = sections.filter((_, idx) => idx !== index);
-    setSections(updatedSections);
+      const loadingToast = toast.loading("📤 Uploading image...", {
+        position: "top-center",
+        style: { backgroundColor: '#2196f3' }
+      });
+
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/dqexj7isi/image/upload",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      toast.dismiss(loadingToast);
+      const uploadedImageUrl = response.data.secure_url;
+      setImageUrl(uploadedImageUrl);
+
+      toast.success("🖼️ Image updated successfully!", {
+        position: "top-center",
+        style: { backgroundColor: '#4caf50' }
+      });
+    } catch (error) {
+      toast.error("❌ Error uploading image", {
+        position: "top-center",
+        style: { backgroundColor: '#f44336' }
+      });
+      console.error("Upload error:", error);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.put(`http://localhost:5000/api/v1/top-blogs/${id}`, {
-        sections
+
+    if (!title.trim() || !description.trim() || !department || !imageUrl) {
+      toast.error("Please fill all required fields", {
+        position: "top-center",
+        style: { backgroundColor: '#f44336' }
       });
+      return;
+    }
+
+    try {
+      const loadingToast = toast.loading("🚀 Updating blog post...", {
+        position: "top-center",
+        style: { backgroundColor: '#2196f3' }
+      });
+
+      const updatedBlog = {
+        title: title.trim(),
+        description: description.trim(),
+        department,
+        subDepartment: subDepartment || "",
+        thumbnail: imageUrl,
+      };
+
+      const response = await axios.put(
+        `http://localhost:5002/api/postArticle/${id}`,
+        updatedBlog
+      );
+
+      toast.dismiss(loadingToast);
+
       if (response.data.success) {
-        toast.success('Blog updated successfully');
-        navigate('/');
+        toast.success("✨ Blog updated successfully!", {
+          position: "top-center",
+          icon: "🎉",
+          style: { backgroundColor: '#4caf50' }
+        });
+        navigate('/blogList');
       }
     } catch (error) {
-      toast.error('Error updating blog');
-      console.error('Error:', error);
+      toast.error(
+        error.response?.data?.message || "❌ Failed to update blog",
+        {
+          position: "top-center",
+          style: { backgroundColor: '#f44336' }
+        }
+      );
+      console.error("Update error:", error);
     }
   };
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
+      <div className="flex justify-center items-center h-screen">
         <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     );
@@ -108,78 +194,105 @@ const BlogEdit = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Edit HealthyEating Blog</h1>
-      
-      <form onSubmit={handleSubmit} className="space-y-8">
-        {sections.map((section, index) => (
-          <div key={section.id} className="p-6 border rounded-lg bg-gray-50">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">Section {index + 1}</h2>
-              {sections.length > 1 && (
-                <button 
-                  type="button"
-                  onClick={() => removeSection(index)}
-                  className="text-red-500 hover:text-red-700"
-                >
-                  Remove Section
-                </button>
-              )}
-            </div>
+      <h1 className="text-3xl font-bold mb-6">Edit Blog</h1>
 
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-2">Title</label>
-              <input
-                type="text"
-                value={section.title}
-                onChange={(e) => handleTitleChange(e, index)}
-                className="w-full p-2 border rounded-md"
-                placeholder="Enter blog title"
-              />
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-2">Image</label>
-              <input
-                type="file"
-                onChange={(e) => handleImageChange(e, index)}
-                accept="image/*"
-                className="w-full p-2 border rounded-md"
-              />
-              {section.image && (
-                <img 
-                  src={section.image} 
-                  alt="Preview" 
-                  className="mt-2 max-w-xs rounded"
-                />
-              )}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Description</label>
-              <JoditEditor
-                key={section.id}
-                value={section.description}
-                config={config}
-                onBlur={(newContent) => handleDescriptionChange(newContent, index)}
-              />
-            </div>
+      <form className="space-y-8" onSubmit={handleSubmit}>
+        <div className="p-6 border rounded-lg bg-gray-50">
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-2">Title</label>
+            <input
+              type="text"
+              className="w-full p-2 border rounded-md"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
           </div>
-        ))}
 
-        <button
-          type="button"
-          onClick={addNewSection}
-          className="w-full bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 transition-colors mb-4"
-        >
-          Add New Section
-        </button>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-2">Department</label>
+            <select
+              className="w-full p-2 border rounded-md bg-white"
+              value={department}
+              onChange={handleDepartmentChange}
+            >
+              <option value="">Select Department</option>
+              <option value="Meal Kits">Meal Kits</option>
+              <option value="Special Diets">Special Diets</option>
+              <option value="Healthy Eating">Healthy Eating</option>
+              <option value="Food Freedom">Food Freedom</option>
+              <option value="Conditions">Conditions</option>
+              <option value="Feel Good Food">Feel Good Food</option>
+              <option value="Products">Products</option>
+              <option value="Vitamins & Supplements">Vitamins & Supplements</option>
+              <option value="Sustain">Sustain</option>
+            </select>
+          </div>
 
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition-colors"
-        >
-          Update All Sections
-        </button>
+          {department === "Meal Kits" && (
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-2">
+                Sub-Department
+              </label>
+              <select
+                className="w-full p-2 border rounded-md bg-white"
+                value={subDepartment}
+                onChange={(e) => setSubDepartment(e.target.value)}
+              >
+                <option value="">Select Sub-Department</option>
+                <option value="Overview">Overview</option>
+                <option value="Diets">Diets</option>
+                <option value="Meal Kits">Meal Kits</option>
+                <option value="Prepared Meals">Prepared Meals</option>
+                <option value="Comparisons">Comparisons</option>
+                <option value="Grocery Delivery">Grocery Delivery</option>
+              </select>
+            </div>
+          )}
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-2">Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              className="w-full p-2 border rounded-md"
+              onChange={handleImageChange}
+            />
+            {imageUrl && (
+              <img
+                src={imageUrl}
+                alt="Blog thumbnail"
+                className="mt-2 max-w-xs rounded"
+              />
+            )}
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-2">Description</label>
+            <JoditEditor
+              ref={editor}
+              value={editorContentRef.current}
+              config={config}
+              onBlur={handleEditorBlur}
+              onChange={handleEditorChange}
+            />
+          </div>
+        </div>
+
+        <div className="flex gap-4">
+          <button
+            type="button"
+            onClick={() => navigate('/blogList')}
+            className="w-1/2 bg-gray-500 text-white px-6 py-2 rounded-md hover:bg-gray-600 transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="w-1/2 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition-colors"
+          >
+            Update Blog
+          </button>
+        </div>
       </form>
     </div>
   );

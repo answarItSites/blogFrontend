@@ -171,23 +171,23 @@ const Header = () => {
                   <div className="absolute right-0 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-500">
                     <div className="bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                       <Link
-                        to="/BlogAdd"
+                        to="/blogList"
                         className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 text-center border-b border-gray-200"
                       >
                         Admin
                       </Link>
                       <Link
-                        to="/super-admin"
+                        to="/BlogAdd "
                         className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 text-center border-b border-gray-200"
                       >
-                        Super Admin
+                         Sub Admin
                       </Link>
-                      <Link
+                      {/* <Link
                         to="/sub-admin"
                         className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 text-center"
                       >
                         Sub Admin
-                      </Link>
+                      </Link> */}
                     </div>
                   </div>
                 </div>
@@ -424,7 +424,7 @@ const Header = () => {
                   Admin
                 </Link>
                 <Link
-                  to="/super-admin"
+                  to="/blogList"
                   className="block px-3 py-2 text-gray-300 hover:text-[#38bdf8] text-base font-medium border-b border-gray-700"
                   onClick={handleMenuItemClick}
                 >
