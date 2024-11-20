@@ -11,6 +11,7 @@ const BLogAdd = () => {
   const [department, setDepartment] = useState(""); // State for department
   const [subDepartment, setSubDepartment] = useState(""); // State for sub-department
   const [imageUrl, setImageUrl] = useState(""); // State for image URL
+  const [shortDescription, setShortDescription] = useState("");
   const editor = useRef(null);
 
   const editorContentRef = useRef(subDepartment);
@@ -114,8 +115,19 @@ const BLogAdd = () => {
       return;
     }
 
+    if (!shortDescription.trim()) {
+      toast.error("📝 Short description is required", {
+        position: "top-center",
+        style: {
+          backgroundColor: '#f44336',
+        }
+      });
+      return;
+    }
+
     const article = {
       title: title.trim(),
+      shortDescription: shortDescription.trim(),
       description: description.trim(),
       department,
       subDepartment: subDepartment || "",
@@ -145,16 +157,31 @@ const BLogAdd = () => {
           }
         });
 
-        // Clear form
+        // Clear all form fields
         setTitle("");
         setDescription("");
         setDepartment("");
         setSubDepartment("");
         setImageUrl("");
-        editorContentRef.current = "";
+        setShortDescription(""); // Clear short description
+        editorContentRef.current = ""; // Clear editor content reference
+        
+        // Reset the Jodit editor
         if (editor.current) {
           editor.current.value = "";
         }
+
+        // Reset file input
+        const fileInput = document.querySelector('input[type="file"]');
+        if (fileInput) {
+          fileInput.value = "";
+        }
+
+        // Reset select elements to default
+        const selects = document.querySelectorAll('select');
+        selects.forEach(select => {
+          select.value = "";
+        });
       }
     } catch (error) {
       toast.error(
@@ -238,6 +265,24 @@ const BLogAdd = () => {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
+              </div>
+
+              {/* Short Description Input */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium mb-2">
+                  Short Description
+                  <span className="text-gray-500 text-xs ml-2">(Brief summary for preview)</span>
+                </label>
+                <textarea
+                  className="w-full p-2 border rounded-md resize-y min-h-[100px]"
+                  placeholder="Enter a short description for the blog preview..."
+                  value={shortDescription}
+                  onChange={(e) => setShortDescription(e.target.value)}
+                  maxLength={200}
+                />
+                <p className="text-sm text-gray-500 mt-1">
+                  {shortDescription.length}/200 characters
+                </p>
               </div>
 
               {/* Department Input */}
