@@ -6,12 +6,10 @@ const Header = () => {
   const [isMealKitsOpen, setIsMealKitsOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
-  const handleMenuItemClick = (e) => {
-    e.preventDefault();
+  
+
+  const handleMenuItemClick = () => {
     setIsOpen(false);
-    setTimeout(() => {
-      window.location.href = e.target.href;
-    }, 150);
   };
 
   const toggleMealKitsMenu = () => {
@@ -33,9 +31,9 @@ const Header = () => {
           <div className="relative flex items-center justify-between h-16">
             {/* Logo Section */}
             <div className="flex-shrink-0">
-              <a href="/" className="text-[#34d399] text-xl font-semibold">
+              <Link to="/" className="text-[#34d399] text-xl font-semibold">
                 DOTMAILIT
-              </a>
+              </Link>
             </div>
 
             {/* Nav Links Section - Hidden on small screens */}
@@ -63,89 +61,89 @@ const Header = () => {
                   {/* Desktop Dropdown Menu */}
                   <div className="absolute left-0 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-500">
                     <div className="bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-                      <a
-                        href="/overview"
+                      <Link
+                        to="/overview"
                         className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 border-b border-gray-200"
                       >
                         Overview
-                      </a>
-                      <a
-                        href="/diets"
+                      </Link>
+                      <Link
+                        to="/diets"
                         className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 border-b border-gray-200"
                       >
                         Diets
-                      </a>
-                      <a
-                        href="/meal-kits"
+                      </Link>
+                      <Link
+                        to="/meal-kits"
                         className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 border-b border-gray-200"
                       >
                         Meal Kits
-                      </a>
-                      <a
-                        href="/prepared-meals"
+                      </Link>
+                      <Link
+                        to="/prepared-meals"
                         className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 border-b border-gray-200"
                       >
                         Prepared Meals
-                      </a>
-                      <a
-                        href="/comparisons"
+                      </Link>
+                      <Link
+                        to="/comparisons"
                         className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 border-b border-gray-200"
                       >
                         Comparisons
-                      </a>
-                      <a
-                        href="/grocery-delivery"
+                      </Link>
+                      <Link
+                        to="/grocery-delivery"
                         className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100"
                       >
                         Grocery Delivery
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
 
                 {/* Regular menu items */}
-                <a
-                  href="/"
+                <Link
+                  to="/"
                   className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap"
                 >
                   Special Diets
-                </a>
-                <a
-                  href="/"
+                </Link>
+                <Link
+                  to="/"
                   className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap"
                 >
                   Healthy Eating
-                </a>
-                <a
-                  href="/"
+                </Link>
+                <Link
+                  to="/"
                   className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap"
                 >
                   Food Freedom
-                </a>
-                <a
-                  href="/"
+                </Link>
+                <Link
+                  to="/"
                   className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap"
                 >
                   Conditions
-                </a>
-                <a
-                  href="/"
+                </Link>
+                <Link
+                  to="/"
                   className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap"
                 >
                   Feel Good Food
-                </a>
-                <a
-                  href="/"
+                </Link>
+                <Link
+                  to="/"
                   className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap"
                 >
                   Products
-                </a>
-                <a
-                  href="/"
+                </Link>
+                <Link
+                  to="/"
                   className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap"
                 >
                   Vitamins & Supplements
-                </a>
+                </Link>
                 {/* <a href="/" className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap">
                   Sustain
                 </a> */}
@@ -178,18 +176,18 @@ const Header = () => {
                       >
                         Admin
                       </Link>
-                      <a
-                        href="/super-admin"
+                      <Link
+                        to="/super-admin"
                         className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 text-center border-b border-gray-200"
                       >
                         Super Admin
-                      </a>
-                      <a
-                        href="/sub-admin"
+                      </Link>
+                      <Link
+                        to="/sub-admin"
                         className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 text-center"
                       >
                         Sub Admin
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -278,113 +276,113 @@ const Header = () => {
                   isMealKitsOpen ? "block" : "hidden"
                 } pl-4 py-2 space-y-0 bg-gray-900`}
               >
-                <a
-                  href="/overview"
+                <Link
+                  to="/overview"
                   className="block px-3 py-2 text-gray-300 hover:text-[#38bdf8] text-base font-medium border-b border-gray-700"
                   onClick={handleMenuItemClick}
                 >
                   Overview
-                </a>
-                <a
-                  href="/diets"
+                </Link>
+                <Link
+                  to="/diets"
                   className="block px-3 py-2 text-gray-300 hover:text-[#38bdf8] text-base font-medium border-b border-gray-700"
                   onClick={handleMenuItemClick}
                 >
                   Diets
-                </a>
-                <a
-                  href="/meal-kits"
+                </Link>
+                <Link
+                  to="/meal-kits"
                   className="block px-3 py-2 text-gray-300 hover:text-[#38bdf8] text-base font-medium border-b border-gray-700"
                   onClick={handleMenuItemClick}
                 >
                   Meal Kits
-                </a>
-                <a
-                  href="/prepared-meals"
+                </Link>
+                <Link
+                  to="/prepared-meals"
                   className="block px-3 py-2 text-gray-300 hover:text-[#38bdf8] text-base font-medium border-b border-gray-700"
                   onClick={handleMenuItemClick}
                 >
                   Prepared Meals
-                </a>
-                <a
-                  href="/comparisons"
+                </Link>
+                <Link
+                  to="/comparisons"
                   className="block px-3 py-2 text-gray-300 hover:text-[#38bdf8] text-base font-medium border-b border-gray-700"
                   onClick={handleMenuItemClick}
                 >
                   Comparisons
-                </a>
-                <a
-                  href="/grocery-delivery"
+                </Link>
+                <Link
+                  to="/grocery-delivery"
                   className="block px-3 py-2 text-gray-300 hover:text-[#38bdf8] text-base font-medium"
                   onClick={handleMenuItemClick}
                 >
                   Grocery Delivery
-                </a>
+                </Link>
               </div>
             </div>
 
             {/* Regular mobile menu items */}
-            <a
-              href="/"
+            <Link
+              to="/"
               className="text-gray-300 hover:text-[#38bdf8] block px-3 py-2 rounded-md text-base font-medium"
               onClick={handleMenuItemClick}
             >
               Special Diets
-            </a>
+            </Link>
 
-            <a
-              href="/"
+            <Link
+              to="/"
               className="text-gray-300 hover:text-[#38bdf8] block px-3 py-2 rounded-md text-base font-medium"
               onClick={handleMenuItemClick}
             >
               Healthy Eating
-            </a>
+            </Link>
 
-            <a
-              href="/"
+            <Link
+              to="/"
               className="text-gray-300 hover:text-[#38bdf8] block px-3 py-2 rounded-md text-base font-medium"
               onClick={handleMenuItemClick}
             >
               Food Freedom
-            </a>
+            </Link>
 
-            <a
-              href="/"
+            <Link
+              to="/"
               className="text-gray-300 hover:text-[#38bdf8] block px-3 py-2 rounded-md text-base font-medium"
               onClick={handleMenuItemClick}
             >
               Conditions
-            </a>
+            </Link>
 
-            <a
-              href="/"
+            <Link
+              to="/"
               className="text-gray-300 hover:text-[#38bdf8] block px-3 py-2 rounded-md text-base font-medium"
               onClick={handleMenuItemClick}
             >
               Feel Good Food
-            </a>
-            <a
-              href="/"
+            </Link>
+            <Link
+              to="/"
               className="text-gray-300 hover:text-[#38bdf8] block px-3 py-2 rounded-md text-base font-medium"
               onClick={handleMenuItemClick}
             >
               Products
-            </a>
-            <a
-              href="/"
+            </Link>
+            <Link
+              to="/"
               className="text-gray-300 hover:text-[#38bdf8] block px-3 py-2 rounded-md text-base font-medium"
               onClick={handleMenuItemClick}
             >
               Vitamins & Supplements
-            </a>
+            </Link>
 
-            <a
-              href="/"
+            <Link
+              to="/"
               className="text-gray-300 hover:text-[#38bdf8] block px-3 py-2 rounded-md text-base font-medium"
               onClick={handleMenuItemClick}
             >
               Sustain
-            </a>
+            </Link>
 
             {/* ... other mobile menu items ... */}
 
@@ -418,27 +416,27 @@ const Header = () => {
                   isLoginOpen ? "block" : "hidden"
                 } pl-4 py-2 space-y-0 bg-gray-900`}
               >
-                <a
-                  href="/admin"
+                <Link
+                  to="/admin"
                   className="block px-3 py-2 text-gray-300 hover:text-[#38bdf8] text-base font-medium border-b border-gray-700"
                   onClick={handleMenuItemClick}
                 >
                   Admin
-                </a>
-                <a
-                  href="/super-admin"
+                </Link>
+                <Link
+                  to="/super-admin"
                   className="block px-3 py-2 text-gray-300 hover:text-[#38bdf8] text-base font-medium border-b border-gray-700"
                   onClick={handleMenuItemClick}
                 >
                   Super Admin
-                </a>
-                <a
-                  href="/sub-admin"
+                </Link>
+                <Link
+                  to="/sub-admin"
                   className="block px-3 py-2 text-gray-300 hover:text-[#38bdf8] text-base font-medium"
                   onClick={handleMenuItemClick}
                 >
                   Sub Admin
-                </a>
+                </Link>
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
+import JoditEditor from "jodit-react";
 
 const BLogAdd = () => {
   const [title, setTitle] = useState(""); // State for title
@@ -8,6 +9,48 @@ const BLogAdd = () => {
   const [department, setDepartment] = useState(""); // State for department
   const [subDepartment, setSubDepartment] = useState(""); // State for sub-department
   const [imageUrl, setImageUrl] = useState(""); // State for image URL
+  const editor = useRef(null);
+
+  const editorContentRef = useRef(subDepartment);
+
+  const handleEditorChange = useCallback((newContent) => {
+    editorContentRef.current = newContent;
+  }, []);
+
+  const handleEditorBlur = () => {
+    setDescription(editorContentRef.current);
+  };
+
+  const config = {
+    readonly: false,
+    placeholder: "Start typing...",
+    toolbarButtonSize: "small",
+    buttons: [
+      "bold",
+      "italic",
+      "underline",
+      "strikethrough",
+      "eraser",
+      "ul",
+      "ol",
+      "outdent",
+      "indent",
+      "font",
+      "fontsize",
+      "brush",
+      "paragraph",
+      "align",
+      "undo",
+      "redo",
+      "cut",
+      "copy",
+      "paste",
+      "hr",
+      "link",
+      "unlink",
+    ],
+  };
+
 
   const handleDepartmentChange = (e) => {
     const selectedDepartment = e.target.value;
@@ -26,8 +69,9 @@ const BLogAdd = () => {
     const article = {
       title,
       description,
+      department,
+      subDepartment,
       thumbnail: imageUrl, // Use the uploaded image URL
-      link: "#", // You can modify this if you have a specific link
     };
     console.log(article);
 
@@ -150,18 +194,16 @@ const BLogAdd = () => {
             />
           </div>
 
-          {/* Description Input */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">
-              Description
-            </label>
-            <textarea
-              className="w-full p-2 border rounded-md"
-              placeholder="Enter blog description"
-              value={description} // Bind description state
-              onChange={(e) => setDescription(e.target.value)} // Update description state
+         
+
+          <JoditEditor
+              ref={editor}
+              value={editorContentRef.current}
+              config={config}
+              tabIndex={1}
+              onBlur={handleEditorBlur}
+              onChange={handleEditorChange}
             />
-          </div>
         </div>
         {/* Submit Button */}
         <button
