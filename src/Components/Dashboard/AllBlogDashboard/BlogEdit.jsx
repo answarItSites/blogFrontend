@@ -3,11 +3,14 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import JoditEditor from 'jodit-react';
+import Header from '../../Shared/Header/Header';
+import Footer from '../../Shared/Footer/Footer';
 
 const BlogEdit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
+  const [shortDescription, setShortDescription] = useState("");
   const [description, setDescription] = useState("");
   const [department, setDepartment] = useState("");
   const [subDepartment, setSubDepartment] = useState("");
@@ -59,6 +62,7 @@ const BlogEdit = () => {
       if (response.data.success) {
         const blog = response.data.data;
         setTitle(blog.title);
+        setShortDescription(blog.shortDescription);
         setDescription(blog.description);
         setDepartment(blog.department);
         setSubDepartment(blog.subDepartment || "");
@@ -135,7 +139,7 @@ const BlogEdit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!title.trim() || !description.trim() || !department || !imageUrl) {
+    if (!title.trim() || !shortDescription.trim() || !description.trim() || !department || !imageUrl) {
       toast.error("Please fill all required fields", {
         position: "top-center",
         style: { backgroundColor: '#f44336' }
@@ -151,6 +155,7 @@ const BlogEdit = () => {
 
       const updatedBlog = {
         title: title.trim(),
+        shortDescription: shortDescription.trim(),
         description: description.trim(),
         department,
         subDepartment: subDepartment || "",
@@ -193,7 +198,9 @@ const BlogEdit = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div>
+      <Header/>
+      <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">Edit Blog</h1>
 
       <form className="space-y-8" onSubmit={handleSubmit}>
@@ -206,6 +213,23 @@ const BlogEdit = () => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-2">
+              Short Description
+              <span className="text-gray-500 text-xs ml-2">(Brief summary for preview)</span>
+            </label>
+            <textarea
+              className="w-full p-2 border rounded-md resize-y min-h-[100px]"
+              placeholder="Enter a short description for the blog preview..."
+              value={shortDescription}
+              onChange={(e) => setShortDescription(e.target.value)}
+              maxLength={200}
+            />
+            <p className="text-sm text-gray-500 mt-1">
+              {shortDescription.length}/200 characters
+            </p>
           </div>
 
           <div className="mb-4">
@@ -294,6 +318,8 @@ const BlogEdit = () => {
           </button>
         </div>
       </form>
+    </div>
+      <Footer/>
     </div>
   );
 };
