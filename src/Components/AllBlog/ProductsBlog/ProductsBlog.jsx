@@ -1,71 +1,158 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { motion } from "framer-motion";
 
 const ProductsBlog = () => {
-  // Example articles data
-  const articles = [
-    {
-      title: "15 Staple Foods to Make Healthy Eating Easy All Week Long",
-      description: "Here's how to always have something to make for dinner.",
-      thumbnail: "https://res.cloudinary.com/dtixzwuqt/image/upload/v1729706106/2_v6qecg.jpg", // Replace with actual image path
-      link: "#"
-    },
-    {
-      title: "The Definitive Guide to Healthy Eating in Real Life",
-      description: "You may hear a lot of talk about how to eat healthy, but getting started is another matter.",
-      thumbnail: "https://res.cloudinary.com/dtixzwuqt/image/upload/v1729706100/8_xueuco.jpg", // Replace with actual image path
-      link: "#"
-    },
-    {
-      title: "How to Stock Your Pantry for Quick & Easy Meals in Minutes",
-      description: "You'll be eating in no time.",
-      thumbnail: "https://res.cloudinary.com/dtixzwuqt/image/upload/v1729706100/6_dkwswe.jpg", // Replace with actual image path
-      link: "#"
-    },
-    {
-      title: "Plant-based Protein: The Best, the Worst, and Everything In Between",
-      description: "The pros, the cons, and how to get started.",
-      thumbnail: "https://res.cloudinary.com/dtixzwuqt/image/upload/v1729706099/4_bo5qby.jpg", // Replace with actual image path
-      link: "#"
-    },
-    {
-      title: "The Definitive Guide to Healthy Grocery Shopping",
-      description: "It can be hard to figure out what to buy in supermarkets when you're trying to eat...",
-      thumbnail: "https://res.cloudinary.com/dtixzwuqt/image/upload/v1729706099/4_bo5qby.jpg", // Replace with actual image path
-      link: "#"
-    },
-    {
-      title: "Try it or Toss it? The Supplements You Need and the Ones You Can Skip",
-      description: "Overwhelmed by the supplement aisle? Get the facts on which ones are worth it.",
-      thumbnail: "https://res.cloudinary.com/dtixzwuqt/image/upload/v1729706100/6_dkwswe.jpg", // Replace with actual image path
-      link: "#"
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProductsBlogs();
+  }, []);
+
+  const fetchProductsBlogs = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5002/api/postArticle?department=Products"
+      );
+      setBlogs(response.data.data);
+      setLoading(false);
+    } catch (error) {
+      toast.error("Error fetching Products blogs");
+      console.error("Fetch error:", error);
+      setLoading(false);
     }
-  ];
+  };
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  if (loading) {
+    return (
+      <section className="max-w-7xl mx-auto px-4 py-8">
+        <motion.h2 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-2xl font-bold mb-6 pb-2 border-b-2 border-gray-200"
+        >
+          Products
+        </motion.h2>
+        <div className="flex justify-center items-center min-h-[400px]">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        </div>
+      </section>
+    );
+  }
+
+  if (blogs.length === 0) {
+    return (
+      <section className="max-w-7xl mx-auto px-4 py-8">
+        <motion.h2 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-2xl font-bold mb-6 pb-2 border-b-2 border-gray-200"
+        >
+          Products
+        </motion.h2>
+        <div className="text-center py-8">
+          <p className="text-gray-500 text-lg">No Products blogs found</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-8">
-      <h2 className="text-2xl font-bold mb-6 pb-2 border-b-2 border-gray-200">Products</h2>
+      <motion.h2 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-2xl font-bold mb-6 pb-2 border-b-2 border-gray-200"
+      >
+        Products
+      </motion.h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
-        {articles.map((article, index) => (
-          <Link
-            to={`healthy-eating/2`}
-            key={index}
-            className="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-6 transition-transform transform hover:scale-105 hover:bg-gray-100 p-4 rounded-lg"
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4"
+      >
+        {blogs.map((blog) => (
+          <motion.div
+            key={blog._id}
+            variants={itemVariants}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
-            <img
-              src={article.thumbnail}
-              alt={article.title}
-              className="w-full md:w-48 h-48 object-cover"
-            />
-            <div className="flex-1">
-              <h3 className="text-xl font-bold hover:text-green-600 transition-colors mb-2">
-                {article.title}
-              </h3>
-              <p className="text-gray-600 text-base">{article.description}</p>
-            </div>
-          </Link>
+            <Link
+              to={`/allBlogDetials/${blog._id}`}
+              className="flex flex-col md:flex-row items-stretch bg-white rounded-lg shadow-sm 
+                       hover:shadow-md transition-all duration-300 hover:bg-gray-50 overflow-hidden"
+            >
+              <motion.div 
+                className="relative w-full md:w-48 h-48 flex-shrink-0"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.3 }}
+              >
+                <img
+                  src={blog.thumbnail}
+                  alt={blog.title}
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+              <div className="flex flex-col justify-between p-4 flex-grow">
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 hover:text-blue-600 
+                               transition-colors mb-2 line-clamp-2">
+                    {blog.title}
+                  </h3>
+                  <p className="text-gray-600 text-base mb-4 line-clamp-3">
+                    {blog.shortDescription}
+                  </p>
+                </div>
+                <div className="flex justify-between items-center text-sm mt-auto">
+                  <span className="text-gray-500">
+                    {new Date(blog.createdAt).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </span>
+                  <motion.span 
+                    className="text-blue-600 hover:text-blue-700 font-medium"
+                    whileHover={{ x: 5 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    Read more →
+                  </motion.span>
+                </div>
+              </div>
+            </Link>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 };
