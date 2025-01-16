@@ -19,6 +19,9 @@ const AllBlogDetials = () => {
         fetchBlogDetails();
     }, [id]);
 
+    
+    
+
     if (!blogDetails) return <div>Loading...</div>;
     
     return (

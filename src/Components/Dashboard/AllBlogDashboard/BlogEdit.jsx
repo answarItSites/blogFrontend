@@ -228,7 +228,7 @@ const BlogEdit = () => {
               maxLength={200}
             />
             <p className="text-sm text-gray-500 mt-1">
-              {shortDescription.length}/200 characters
+              {shortDescription?.length}/200 characters
             </p>
           </div>
 
