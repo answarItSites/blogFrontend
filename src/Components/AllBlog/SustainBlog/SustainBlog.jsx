@@ -107,7 +107,7 @@ const SustainBlog = () => {
             whileTap={{ scale: 0.98 }}
           >
             <Link
-              to={`/allBlogDetials/${blog._id}`}
+              to={`/allBlogDetails/${blog._id}`}
               className="flex flex-col md:flex-row items-stretch bg-white rounded-lg shadow-sm 
                        hover:shadow-md transition-all duration-300 hover:bg-gray-50 overflow-hidden"
             >

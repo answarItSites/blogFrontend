@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
-const AllBlogDetials = () => {
+const AllBlogDetails = () => {
     const [blogDetails, setBlogDetails] = useState(null);
-    const { id } = useParams();
+    const { blogId } = useParams();
+    console.log(blogId);
+    
 
     useEffect(() => {
         const fetchBlogDetails = async () => {
             try {
-                const response = await axios.get(`/api/blogs/${id}`);
+                const response = await axios.get(`/api/blogs/${blogId}`);
                 setBlogDetails(response.data.data);
             } catch (error) {
                 console.error('Error fetching blog details:', error);
@@ -17,13 +19,12 @@ const AllBlogDetials = () => {
         };
 
         fetchBlogDetails();
-    }, [id]);
+    }, [blogId]);
 
     
     
 
     if (!blogDetails) return <div>Loading...</div>;
-    
     return (
         <div>
         <h1>{blogDetails.title}</h1>
@@ -35,4 +36,4 @@ const AllBlogDetials = () => {
     );
 };
 
-export default AllBlogDetials;
+export default AllBlogDetails;

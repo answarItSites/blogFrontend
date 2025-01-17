@@ -7,8 +7,8 @@ import BlogList from './Components/Dashboard/AllBlogDashboard/BlogList';
 import BlogEdit from './Components/Dashboard/AllBlogDashboard/BlogEdit';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AllBlogDetials from './Components/DetailsBlog/AllblogDetials/AllBlogDetials';
 import SustainBlog from './Components/AllBlog/SustainBlog/SustainBlog';
+import AllBlogDetails from './Components/AllBlog/AllBlogDetails/AllBlogDetails';
 
 const App = () => {
   return (
@@ -21,7 +21,8 @@ const App = () => {
           <Route path="/blogAdd" element={<BlogAdd />} />
           <Route path="/blogList" element={<BlogList />} />
           <Route path="/edit-blog/:id" element={<BlogEdit />} />
-          <Route path="/allBlogDetials:id" element={AllBlogDetials}/>
+          {/* <Route path="/allBlogDetials/:BlogId" element={AllBlogDetials}/> */}
+          <Route path="/allBlogDetails/:blogId" element={<AllBlogDetails/>} />
           <Route path="/sustain" element={<SustainBlog />} />
         </Routes>
       </div>
