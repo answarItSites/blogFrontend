@@ -148,49 +148,13 @@ const Header = () => {
                   Sustain
                 </a> */}
 
-                {/* Login Dropdown */}
-                <div className="relative group">
-                  <button className="h-16 text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap flex items-center">
-                    Login
-                    <svg
-                      className="ml-1 h-4 w-4 transition-transform group-hover:rotate-180"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </button>
-
-                  {/* Login Dropdown Menu */}
-                  <div className="absolute right-0 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-500">
-                    <div className="bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-                      <Link
-                        to="/blogList"
-                        className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 text-center border-b border-gray-200"
-                      >
-                        Admin
-                      </Link>
-                      <Link
-                        to="/BlogAdd "
-                        className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 text-center border-b border-gray-200"
-                      >
-                         Sub Admin
-                      </Link>
-                      {/* <Link
-                        to="/sub-admin"
-                        className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 text-center"
-                      >
-                        Sub Admin
-                      </Link> */}
-                    </div>
-                  </div>
-                </div>
+                {/* Dashboard */}
+                <Link
+                  to="/dashboard"
+                  className="text-gray-300 hover:text-[#38bdf8] px-3 py-2 text-sm font-medium whitespace-nowrap"
+                >
+                  Dashboard
+                </Link>
               </div>
             </div>
 

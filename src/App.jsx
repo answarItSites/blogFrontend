@@ -9,6 +9,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SustainBlog from './Components/AllBlog/SustainBlog/SustainBlog';
 import AllBlogDetails from './Components/AllBlog/AllBlogDetails/AllBlogDetails';
+import Dashboard from './Components/Dashboard/MainDashboard/Dashboard';
+import ScrollToTop from './Components/Shared/ScrollToTop/ScrollToTop';
 
 const App = () => {
   return (
@@ -24,6 +26,13 @@ const App = () => {
           {/* <Route path="/allBlogDetials/:BlogId" element={AllBlogDetials}/> */}
           <Route path="/allBlogDetails/:blogId" element={<AllBlogDetails/>} />
           <Route path="/sustain" element={<SustainBlog />} />
+
+          <Route path="/dashboard/*" element={<Dashboard />}>
+            <Route path="add-blog" element={<BlogAdd />} />
+            <Route path="blog-list" element={<BlogList />} />
+            {/* <Route path="sign-up" element={<SignUp />} />
+            <Route path="tracking" element={<Tracking />} /> */}
+          </Route>
         </Routes>
       </div>
       <ToastContainer
@@ -53,6 +62,7 @@ const App = () => {
           boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
         }}
       />
+      <ScrollToTop/>
     </Router>
   );
 };

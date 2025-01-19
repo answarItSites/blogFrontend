@@ -1,8 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import Header from "../../Shared/Header/Header";
-import Footer from "../../Shared/Footer/Footer";
 import PropTypes from 'prop-types';
 
 const BlogList = () => {
@@ -179,7 +177,7 @@ const BlogList = () => {
   // Rest of your JSX remains the same, but update the image rendering to use LazyImage
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
+      
       <main className="flex-grow bg-gray-50 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header and Add Button */}
@@ -280,7 +278,7 @@ const BlogList = () => {
           )}
         </div>
       </main>
-      <Footer />
+     
     </div>
   );
 };
