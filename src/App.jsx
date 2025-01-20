@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './Components/Home/Home';
 import FeatureSectionDetails from './Components/AllBlog/FeatureSection/FeatureSectionDetails';
 import FeatureEdit from './Components/Dashboard/FeatureDashboard/FeatureEdit';
@@ -11,6 +11,8 @@ import SustainBlog from './Components/AllBlog/SustainBlog/SustainBlog';
 import AllBlogDetails from './Components/AllBlog/AllBlogDetails/AllBlogDetails';
 import Dashboard from './Components/Dashboard/MainDashboard/Dashboard';
 import ScrollToTop from './Components/Shared/ScrollToTop/ScrollToTop';
+import Signup from './Components/Auth/Singup/Signup';
+import Login from './Components/Auth/Login/Login';
 
 const App = () => {
   return (
@@ -28,10 +30,12 @@ const App = () => {
           <Route path="/sustain" element={<SustainBlog />} />
 
           <Route path="/dashboard/*" element={<Dashboard />}>
+            <Route index element={<Navigate to="sign-up" replace />} />
             <Route path="add-blog" element={<BlogAdd />} />
             <Route path="blog-list" element={<BlogList />} />
-            {/* <Route path="sign-up" element={<SignUp />} />
-            <Route path="tracking" element={<Tracking />} /> */}
+            <Route path="sign-up" element={<Signup />} />
+            <Route path="login" element={<Login />} />
+            {/* <Route path="tracking" element={<Tracking />} />  */}
           </Route>
         </Routes>
       </div>
