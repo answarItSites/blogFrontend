@@ -13,6 +13,7 @@ import Dashboard from './Components/Dashboard/MainDashboard/Dashboard';
 import ScrollToTop from './Components/Shared/ScrollToTop/ScrollToTop';
 import Signup from './Components/Auth/Singup/Signup';
 import Login from './Components/Auth/Login/Login';
+import TrackingPage from './Components/Shared/TrackingPage/TrackingPage';
 
 const App = () => {
   return (
@@ -35,7 +36,7 @@ const App = () => {
             <Route path="blog-list" element={<BlogList />} />
             <Route path="sign-up" element={<Signup />} />
             <Route path="login" element={<Login />} />
-            {/* <Route path="tracking" element={<Tracking />} />  */}
+            <Route path="tracking" element={<TrackingPage />} /> 
           </Route>
         </Routes>
       </div>
