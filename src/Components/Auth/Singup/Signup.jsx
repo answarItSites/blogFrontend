@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
-    const [formData, setFormData] = useState({
+    const navigate = useNavigate();
+    const initialFormData = {
         name: '',
         email: '',
         phone: '',
         password: '',
         role: 'admin',
-    });
+    };
+
+    const [formData, setFormData] = useState(initialFormData);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -20,17 +24,35 @@ const Signup = () => {
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:5002/api/signup', formData);
+            
             if (response.data.success) {
-                toast.success('Signup successful!', { position: 'top-center' });
-                // Optionally, redirect or clear form
-            } else {
-                toast.error(response.data.message || 'Signup failed', { position: 'top-center' });
+                toast.success('Signup successful!', { 
+                    position: 'top-center',
+                    style: { backgroundColor: '#28a745', color: '#fff' },
+                });
+                setFormData(initialFormData); // Reset form
+    
+                // Redirect to login page after 2 seconds
+                setTimeout(() => {
+                    navigate('/dashboard/login');
+                }, 2000);
             }
         } catch (error) {
-            toast.error('An error occurred during signup', { position: 'top-center' });
             console.error('Signup error:', error);
+    
+            // Handle specific errors
+            if (error.response) {
+                if (error.response.status === 409) {
+                    toast.error("This email is already in use. Please try another.", { position: 'top-center' });
+                } else {
+                    toast.error(error.response.data.message || 'Signup failed', { position: 'top-center' });
+                }
+            } else {
+                toast.error('An error occurred during signup', { position: 'top-center' });
+            }
         }
     };
+    
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
