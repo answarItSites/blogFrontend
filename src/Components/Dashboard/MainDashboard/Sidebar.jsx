@@ -15,12 +15,12 @@ const Sidebar = () => {
                 >
                     Sign Up
                 </Link>
-                <Link 
+                {/* <Link 
                     to="login" 
                     className={`block py-2 px-4 rounded hover:bg-gray-700 ${currentPath === 'login' ? 'bg-gray-700' : ''}`}
                 >
                     Login
-                </Link>
+                </Link> */}
                 <Link 
                     to="add-blog" 
                     className={`block py-2 px-4 rounded hover:bg-gray-700 ${currentPath === 'add-blog' ? 'bg-gray-700' : ''}`}

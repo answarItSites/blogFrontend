@@ -1,34 +1,48 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-        role: 'admin', // Default role
-    });
+    const [formData, setFormData] = useState({ email: "", password: "" });
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     try {
+    //         const response = await axios.post("http://localhost:5002/api/login", formData);
+    //         if (response.data.success) {
+    //             toast.success("✅ login successful!", { position: "top-center" });
+    //             navigate("/dashboard/login"); // Redirect to login page after success
+    //         } else {
+    //             toast.error(response.data.message, { position: "top-center" });
+    //         }
+    //     } catch (error) {
+    //         toast.error("❌ Signup failed. Try again.", { position: "top-center" });
+    //         console.error("Signup error:", error);
+    //     }
+    // };
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5002/api/login', formData);
+            const response = await axios.post("http://localhost:5002/api/login", formData);
             if (response.data.success) {
-                toast.success('Login successful!', { position: 'top-center' });
-                // Optionally, redirect or store token
+                localStorage.setItem("token", response.data.token); // Store token
+                toast.success("✅ Login successful!", { position: "top-center" });
+                navigate("/dashboard"); // Redirect to main dashboard page
             } else {
-                toast.error(response.data.message || 'Login failed', { position: 'top-center' });
+                toast.error(response.data.message, { position: "top-center" });
             }
         } catch (error) {
-            toast.error('An error occurred during login', { position: 'top-center' });
-            console.error('Login error:', error);
+            toast.error("❌ Login failed. Try again.", { position: "top-center" });
+            console.error("Login error:", error);
         }
     };
+    
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -59,7 +73,7 @@ const Login = () => {
                             required
                         />
                     </div>
-                    <div className="mb-6">
+                    {/* <div className="mb-6">
                         <label className="block text-sm font-medium mb-2">Role</label>
                         <select
                             name="role"
@@ -71,7 +85,7 @@ const Login = () => {
                             <option value="editor">Editor</option>
                             <option value="superAdmin">SuperAdmin</option>
                         </select>
-                    </div>
+                    </div> */}
                 </div>
                 <button
                     type="submit"

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'; 
 import Home from './Components/Home/Home';
 import FeatureSectionDetails from './Components/AllBlog/FeatureSection/FeatureSectionDetails';
 import FeatureEdit from './Components/Dashboard/FeatureDashboard/FeatureEdit';
@@ -14,6 +14,7 @@ import ScrollToTop from './Components/Shared/ScrollToTop/ScrollToTop';
 import Signup from './Components/Auth/Singup/Signup';
 import Login from './Components/Auth/Login/Login';
 import TrackingPage from './Components/Shared/TrackingPage/TrackingPage';
+import PrivateRoute from './Components/Auth/PrivateRoute/PrivateRoute';
 
 const App = () => {
   return (
@@ -26,20 +27,27 @@ const App = () => {
           <Route path="/blogAdd" element={<BlogAdd />} />
           <Route path="/blogList" element={<BlogList />} />
           <Route path="/edit-blog/:id" element={<BlogEdit />} />
-          {/* <Route path="/allBlogDetials/:BlogId" element={AllBlogDetials}/> */}
-          <Route path="/allBlogDetails/:blogId" element={<AllBlogDetails/>} />
+          <Route path="/allBlogDetails/:blogId" element={<AllBlogDetails />} />
           <Route path="/sustain" element={<SustainBlog />} />
 
-          <Route path="/dashboard/*" element={<Dashboard />}>
-            <Route index element={<Navigate to="sign-up" replace />} />
+          {/* PROTECTED DASHBOARD ROUTES */}
+          <Route path="/dashboard/*" element={<PrivateRoute />}>
+            {/* Default route to sign-up */}
+            <Route index element={<Signup />} />
+            
             <Route path="add-blog" element={<BlogAdd />} />
             <Route path="blog-list" element={<BlogList />} />
+            <Route path="tracking" element={<TrackingPage />} />
+            
+            {/* Signup route under the dashboard */}
             <Route path="sign-up" element={<Signup />} />
-            <Route path="login" element={<Login />} />
-            <Route path="tracking" element={<TrackingPage />} /> 
           </Route>
+
+          {/* PUBLIC AUTH ROUTES */}
+          <Route path="/login" element={<Login />} />
         </Routes>
       </div>
+
       <ToastContainer
         position="top-center"
         autoClose={3000}
@@ -67,7 +75,7 @@ const App = () => {
           boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
         }}
       />
-      <ScrollToTop/>
+      <ScrollToTop />
     </Router>
   );
 };
