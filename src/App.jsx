@@ -32,8 +32,8 @@ const App = () => {
 
           {/* PROTECTED DASHBOARD ROUTES */}
           <Route path="/dashboard/*" element={<PrivateRoute />}>
-            {/* Default route to sign-up */}
-            <Route index element={<Signup />} />
+            {/* Redirect to /dashboard/sign-up if no sub-path */}
+            <Route index element={<Navigate to="sign-up" />} />
             
             <Route path="add-blog" element={<BlogAdd />} />
             <Route path="blog-list" element={<BlogList />} />
