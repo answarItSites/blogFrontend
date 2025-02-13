@@ -54,12 +54,13 @@ const Sidebar = () => {
                 >
                     Back to Home
                 </Link>
-                <button
+                
+                <Link to="/login"
                   onClick={handleLogout}
-                  className={`block py-2 px-4 rounded hover:bg-gray-700 ${currentPath === 'backtohome' ? 'bg-gray-700' : ''}`}
+                  className={`block py-2 px-4 rounded hover:bg-gray-700 ${currentPath === '/' ? 'bg-gray-700' : ''}`}
                 >
                   Logout
-                </button>
+                </Link>
 
             </nav>
         </div>
