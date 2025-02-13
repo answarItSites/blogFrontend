@@ -1,9 +1,16 @@
 // import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
     const location = useLocation();
     const currentPath = location.pathname.split('/').pop();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        
+        localStorage.removeItem("token"); // Clear stored login state
+        navigate("/login"); // Redirect to login page
+      };
 
     return (
         <div className="bg-gray-800 text-white w-64 min-h-screen p-4">
@@ -47,6 +54,13 @@ const Sidebar = () => {
                 >
                     Back to Home
                 </Link>
+                <button
+                  onClick={handleLogout}
+                  className={`block py-2 px-4 rounded hover:bg-gray-700 ${currentPath === 'backtohome' ? 'bg-gray-700' : ''}`}
+                >
+                  Logout
+                </button>
+
             </nav>
         </div>
     );
