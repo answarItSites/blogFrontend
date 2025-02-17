@@ -59,14 +59,14 @@ const AllBlogDetails = () => {
           {blog.title}
         </motion.h1>
 
-        <motion.img
+        {/* <motion.img
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
           src={blog.thumbnail}
           alt={blog.title}
           className="w-full h-64 md:h-96 object-cover rounded-lg shadow-md mb-6"
-        />
+        /> */}
 
         <p className="text-lg text-gray-600 mb-4 text-center">
           {blog.shortDescription}
