@@ -16,9 +16,9 @@
 //           {/* Footer Links */}
 //           <div className="flex space-x-6">
 //             {['Meal Kits', 'Special Diets', 'Healthy Eating', 'Vitamins & Supplements'].map((link) => (
-//               <a 
-//                 key={link} 
-//                 href="/" 
+//               <a
+//                 key={link}
+//                 href="/"
 //                 className="text-gray-400 hover:text-[#38bdf8] transition-colors duration-300"
 //               >
 //                 {link}
@@ -55,13 +55,11 @@
 
 // export default Footer;
 
-
-
 const Footer = () => {
   return (
     <footer className="bg-black text-gray-300 py-4">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <p>&copy; 2024 dotmailIT. All rights reserved.</p>
+        <p>&copy; 2025 dotmailIT. All rights reserved.</p>
         <div className="flex justify-center space-x-4 mt-4">
           <a href="https://facebook.com" className="hover:text-[#38bdf8]">
             Facebook
@@ -77,6 +75,5 @@ const Footer = () => {
     </footer>
   );
 };
-
 
 export default Footer;
