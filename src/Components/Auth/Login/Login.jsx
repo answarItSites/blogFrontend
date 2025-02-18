@@ -1,39 +1,37 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import React, {  useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { decodeToken } from "../../../../src/allutils/decodeToken"; // Adjust path if needed
+import { useNavigate } from "react-router-dom";
+
+
 
 const Login = () => {
     const [formData, setFormData] = useState({ email: "", password: "" });
+    
+    
     const navigate = useNavigate();
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     try {
-    //         const response = await axios.post("http://localhost:5002/api/login", formData);
-    //         if (response.data.success) {
-    //             toast.success("✅ login successful!", { position: "top-center" });
-    //             navigate("/dashboard/login"); // Redirect to login page after success
-    //         } else {
-    //             toast.error(response.data.message, { position: "top-center" });
-    //         }
-    //     } catch (error) {
-    //         toast.error("❌ Signup failed. Try again.", { position: "top-center" });
-    //         console.error("Signup error:", error);
-    //     }
-    // };
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.post("http://localhost:5002/api/login", formData);
             if (response.data.success) {
-                localStorage.setItem("token", response.data.token); // Store token
+                const token = response.data.token;
+                localStorage.setItem("token", token); // Store token
+
+                // Decode token and log role & id
+                const decoded = decodeToken(token);
+                if (decoded) {
+                    console.log({ id: decoded.id, role: decoded.role });
+                }
+
                 toast.success("✅ Login successful!", { position: "top-center" });
-                navigate("/dashboard"); // Redirect to main dashboard page
+                navigate("/dashboard"); // Redirect to dashboard
             } else {
                 toast.error(response.data.message, { position: "top-center" });
             }
@@ -42,7 +40,6 @@ const Login = () => {
             console.error("Login error:", error);
         }
     };
-    
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -73,19 +70,6 @@ const Login = () => {
                             required
                         />
                     </div>
-                    {/* <div className="mb-6">
-                        <label className="block text-sm font-medium mb-2">Role</label>
-                        <select
-                            name="role"
-                            value={formData.role}
-                            onChange={handleChange}
-                            className="w-full p-4 border rounded-md bg-white text-lg"
-                        >
-                            <option value="admin">Admin</option>
-                            <option value="editor">Editor</option>
-                            <option value="superAdmin">SuperAdmin</option>
-                        </select>
-                    </div> */}
                 </div>
                 <button
                     type="submit"
